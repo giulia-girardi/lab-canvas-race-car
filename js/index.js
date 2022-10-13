@@ -11,12 +11,16 @@ let carX = canvas.width / 2 - 35;
 
 /// move right 
 const moveCarRight = () => {
-  carX += 4;
+  if (carX < canvas.width - 130) {
+    carX += 5
+  } 
 }
 
 /// move left
 const moveCarLeft = () => {
-  carX -= 4;
+  if (carX >= 0 + 50) {
+    carX -= 5;
+  }
 }
 
 /// draw car
