@@ -6,8 +6,7 @@ background.src = '../images/road.png'
 const car = new Image();
 car.src = '../images/car.png'
 let carX = canvas.width / 2 - 35;
-
-
+let carY = 430;
 
 /// move right 
 const moveCarRight = () => {
@@ -34,8 +33,21 @@ const drawCar = () => {
 const updateCar = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawCar();
-
- requestAnimationFrame(updateCar)
+  drawObstacle();
+  moveObstDown();
+  requestAnimationFrame(updateCar)
+  
+  /* let isGameOver = false;
+  let requestAnimationFrameId;
+  if (car.carY  ===  obstacle.obstacleY) {
+    isGameOver = true
+  }
+  if (isGameOver) {
+    cancelAnimationFrame(requestAnimationFrameId)
+    drawGameOver()
+  } else {
+    requestAnimationFrameId = requestAnimationFrame(updateCar)
+  } */
 }
 
 ////listen to events and acts 
@@ -48,7 +60,36 @@ document.addEventListener('keydown', event => {
   }
 })
 
+// draw obstacle 
+let obstacleX = Math.round(Math.random() * (canvas.width - 150))
+let obstacleY = 0
+const drawObstacle = () => {
+  ctx.beginPath()
+  ctx.fillStyle = 'tomato'
+  ctx.fillRect(obstacleX, obstacleY , 150, 20)
+  ctx.closePath()
+}
 
+///to do: add mad max position of the obstacle
+setInterval(drawObstacle, 2000)
+
+// move obs down 
+const moveObstDown = () => {
+  obstacleY += 1.6
+}
+
+/// gameover
+const drawGameOver = () => {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+  ctx.beginPath()
+  ctx.font = '48px sans-serif'
+  ctx.fillText('GAME OVER', canvasWidth / 3, canvasHeight / 2)
+  ctx.closePath()
+}
+
+
+
+///////////////
 
 window.onload = () => {
   document.getElementById('start-button').onclick = () => {
@@ -59,6 +100,5 @@ window.onload = () => {
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
     ctx.drawImage(car, canvas.width / 2 - 35, 430, 70, 150)
     updateCar()
-
   }
 };
